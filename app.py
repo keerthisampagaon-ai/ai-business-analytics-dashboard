@@ -53,16 +53,16 @@ if file:
         c1, c2, c3, c4 = st.columns(4)
 
         with c1:
-            kpi_card("Revenue", f"${revenue:,.0f}")
+    kpi_card("Revenue", f"${revenue:,.0f}", "💰", "#1cc88a")
 
-        with c2:
-            kpi_card("Orders", orders)
+with c2:
+    kpi_card("Orders", orders, "📦", "#36b9cc")
 
-        with c3:
-            kpi_card("Average Order Value", f"${aov:.2f}")
+with c3:
+    kpi_card("Average Order Value", f"${aov:.2f}", "💳", "#f6c23e")
 
-        with c4:
-            kpi_card("Customer Rating", f"{rating:.2f}")
+with c4:
+    kpi_card("Customer Rating", f"{rating:.2f}", "⭐", "#e74a3b")
 
         st.subheader("AI Business Insights")
 
