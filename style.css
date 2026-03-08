@@ -1,0 +1,23 @@
+.card{
+
+background:linear-gradient(135deg,#4e73df,#224abe);
+
+padding:20px;
+
+border-radius:10px;
+
+color:white;
+
+text-align:center;
+
+animation:fadeIn 1s;
+
+}
+
+@keyframes fadeIn{
+
+from{opacity:0; transform:translateY(10px)}
+
+to{opacity:1}
+
+}
