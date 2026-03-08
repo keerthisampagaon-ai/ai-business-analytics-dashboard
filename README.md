@@ -1,5 +1,7 @@
 📊 AI Business Analytics Dashboard
 
+https://ai-business-analytics-dashboard-aqvn2y3s4appth4pkboifk7.streamlit.app/
+
 An interactive AI-powered business analytics dashboard built with Python, Streamlit, Plotly, and Pandas.
 This project analyzes business datasets, generates insights automatically, and exports a professional multi-page PDF report.
 
