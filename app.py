@@ -6,6 +6,7 @@ from charts import *
 from insights import generate_insights
 from pdf_export import export_dashboard
 from kpi_cards import kpi_card
+from chatbot import ask_data
 
 st.set_page_config(layout="wide")
 
@@ -53,16 +54,16 @@ if file:
         c1, c2, c3, c4 = st.columns(4)
 
         with c1:
-         kpi_card("Revenue", f"${revenue:,.0f}", "💰", "#1cc88a")
+            kpi_card("Revenue", f"${revenue:,.0f}", "💰", "#1cc88a")
 
         with c2:
-         kpi_card("Orders", orders, "📦", "#36b9cc")
+            kpi_card("Orders", orders, "📦", "#36b9cc")
 
         with c3:
-         kpi_card("Average Order Value", f"${aov:.2f}", "💳", "#f6c23e")
+            kpi_card("Average Order Value", f"${aov:.2f}", "💳", "#f6c23e")
 
         with c4:
-         kpi_card("Customer Rating", f"{rating:.2f}", "⭐", "#e74a3b")
+            kpi_card("Customer Rating", f"{rating:.2f}", "⭐", "#e74a3b")
 
         st.subheader("AI Business Insights")
 
@@ -78,7 +79,6 @@ if file:
         st.header("Sales Trends")
 
         fig = sales_trend(df)
-
         st.plotly_chart(fig, use_container_width=True)
 
     # -------------------------
@@ -104,7 +104,6 @@ if file:
         st.header("Regional Sales")
 
         fig = region_sales(df)
-
         st.plotly_chart(fig, use_container_width=True)
 
     # -------------------------
@@ -125,12 +124,15 @@ if file:
     # SAVE CHARTS FOR PDF
     # -------------------------
 
-    sales_trend(df).write_image("trend_chart.png", scale=3)
-    top_products(df).write_image("top_products.png", scale=3)
-    bottom_products(df).write_image("bottom_products.png", scale=3)
-    region_sales(df).write_image("region_sales.png", scale=3)
-    payment_methods(df).write_image("payment_methods.png", scale=3)
-    order_status(df).write_image("order_status.png", scale=3)
+    try:
+        sales_trend(df).write_image("trend_chart.png", scale=3)
+        top_products(df).write_image("top_products.png", scale=3)
+        bottom_products(df).write_image("bottom_products.png", scale=3)
+        region_sales(df).write_image("region_sales.png", scale=3)
+        payment_methods(df).write_image("payment_methods.png", scale=3)
+        order_status(df).write_image("order_status.png", scale=3)
+    except:
+        pass
 
     # -------------------------
     # FULL DASHBOARD EXPORT
@@ -157,4 +159,20 @@ if file:
                 file_name="Business_Dashboard_Report.pdf",
                 mime="application/pdf"
             )
-    
+
+   # -------------------------
+   # AI DATA CHATBOT
+   # -------------------------
+
+    st.divider()
+
+    st.subheader("Ask Your Data 🤖")
+
+    question = st.text_input("Ask a question about the dataset")
+
+    if question:
+        answer = ask_data(question, df)
+        st.success(answer)
+
+else:
+    st.info("Please upload a CSV dataset to start the dashboard.")
