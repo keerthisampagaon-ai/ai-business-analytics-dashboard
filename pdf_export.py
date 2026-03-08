@@ -1,6 +1,15 @@
+import os
+
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image, PageBreak
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.pagesizes import A4
+
+
+def add_image_safe(elements, path, width=450, height=250):
+    """Add image only if it exists"""
+    if os.path.exists(path):
+        elements.append(Image(path, width=width, height=height))
+        elements.append(Spacer(1,20))
 
 
 def export_dashboard(kpis, insights):
@@ -20,7 +29,6 @@ def export_dashboard(kpis, insights):
     elements.append(Paragraph("Automated report generated from Streamlit dashboard.", styles['BodyText']))
     elements.append(PageBreak())
 
-
     # -------------------
     # EXECUTIVE SUMMARY
     # -------------------
@@ -33,16 +41,14 @@ def export_dashboard(kpis, insights):
 
     elements.append(PageBreak())
 
-
     # -------------------
     # SALES TREND
     # -------------------
 
     elements.append(Paragraph("Sales Trend", styles['Heading1']))
     elements.append(Spacer(1,20))
-    elements.append(Image("trend_chart.png", width=450, height=250))
+    add_image_safe(elements, "trend_chart.png")
     elements.append(PageBreak())
-
 
     # -------------------
     # PRODUCT PERFORMANCE
@@ -50,15 +56,13 @@ def export_dashboard(kpis, insights):
 
     elements.append(Paragraph("Top Products", styles['Heading1']))
     elements.append(Spacer(1,20))
-    elements.append(Image("top_products.png", width=450, height=250))
-    elements.append(Spacer(1,30))
+    add_image_safe(elements, "top_products.png")
 
     elements.append(Paragraph("Bottom Products", styles['Heading1']))
     elements.append(Spacer(1,20))
-    elements.append(Image("bottom_products.png", width=450, height=250))
+    add_image_safe(elements, "bottom_products.png")
 
     elements.append(PageBreak())
-
 
     # -------------------
     # GEOGRAPHY
@@ -66,10 +70,9 @@ def export_dashboard(kpis, insights):
 
     elements.append(Paragraph("Sales by Region", styles['Heading1']))
     elements.append(Spacer(1,20))
-    elements.append(Image("region_sales.png", width=450, height=250))
+    add_image_safe(elements, "region_sales.png")
 
     elements.append(PageBreak())
-
 
     # -------------------
     # OPERATIONS
@@ -77,16 +80,13 @@ def export_dashboard(kpis, insights):
 
     elements.append(Paragraph("Payment Methods", styles['Heading1']))
     elements.append(Spacer(1,20))
-    elements.append(Image("payment_methods.png", width=450, height=250))
-
-    elements.append(Spacer(1,40))
+    add_image_safe(elements, "payment_methods.png")
 
     elements.append(Paragraph("Order Status", styles['Heading1']))
     elements.append(Spacer(1,20))
-    elements.append(Image("order_status.png", width=450, height=250))
+    add_image_safe(elements, "order_status.png")
 
     elements.append(PageBreak())
-
 
     # -------------------
     # AI INSIGHTS
@@ -98,7 +98,6 @@ def export_dashboard(kpis, insights):
     for ins in insights:
         elements.append(Paragraph(ins, styles['BodyText']))
         elements.append(Spacer(1,10))
-
 
     pdf = SimpleDocTemplate(file, pagesize=A4)
 
