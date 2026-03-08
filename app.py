@@ -25,9 +25,8 @@ page = st.sidebar.radio(
     ]
 )
 
-# SINGLE DATASET FOR WHOLE DASHBOARD
+# DATASET UPLOAD
 st.sidebar.subheader("Upload Dataset")
-
 file = st.sidebar.file_uploader("Upload CSV", type="csv")
 
 if file:
@@ -78,8 +77,8 @@ if file:
 
         st.header("Sales Trends")
 
-        fig = sales_trend(df)
-        st.plotly_chart(fig, use_container_width=True)
+        fig_trend = sales_trend(df)
+        st.plotly_chart(fig_trend, use_container_width=True)
 
     # -------------------------
     # PRODUCT PERFORMANCE
@@ -89,11 +88,11 @@ if file:
 
         st.header("Product Performance")
 
-        fig1 = top_products(df)
-        fig2 = bottom_products(df)
+        fig_top = top_products(df)
+        fig_bottom = bottom_products(df)
 
-        st.plotly_chart(fig1, use_container_width=True)
-        st.plotly_chart(fig2, use_container_width=True)
+        st.plotly_chart(fig_top, use_container_width=True)
+        st.plotly_chart(fig_bottom, use_container_width=True)
 
     # -------------------------
     # GEOGRAPHY
@@ -103,8 +102,8 @@ if file:
 
         st.header("Regional Sales")
 
-        fig = region_sales(df)
-        st.plotly_chart(fig, use_container_width=True)
+        fig_region = region_sales(df)
+        st.plotly_chart(fig_region, use_container_width=True)
 
     # -------------------------
     # OPERATIONS
@@ -114,25 +113,27 @@ if file:
 
         st.header("Operations Overview")
 
-        fig1 = payment_methods(df)
-        fig2 = order_status(df)
+        fig_payment = payment_methods(df)
+        fig_status = order_status(df)
 
-        st.plotly_chart(fig1, use_container_width=True)
-        st.plotly_chart(fig2, use_container_width=True)
+        st.plotly_chart(fig_payment, use_container_width=True)
+        st.plotly_chart(fig_status, use_container_width=True)
 
     # -------------------------
     # SAVE CHARTS FOR PDF
     # -------------------------
 
     try:
+
         sales_trend(df).write_image("trend_chart.png", scale=3)
         top_products(df).write_image("top_products.png", scale=3)
         bottom_products(df).write_image("bottom_products.png", scale=3)
         region_sales(df).write_image("region_sales.png", scale=3)
         payment_methods(df).write_image("payment_methods.png", scale=3)
         order_status(df).write_image("order_status.png", scale=3)
-    except:
-        pass
+
+    except Exception as e:
+        st.warning("Charts could not be saved for PDF.")
 
     # -------------------------
     # FULL DASHBOARD EXPORT
@@ -160,9 +161,9 @@ if file:
                 mime="application/pdf"
             )
 
-   # -------------------------
-   # AI DATA CHATBOT
-   # -------------------------
+    # -------------------------
+    # AI DATA CHATBOT
+    # -------------------------
 
     st.divider()
 
